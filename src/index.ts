@@ -63,6 +63,7 @@ app.post("/points", async (context)=> {
     return context.json({error: "Error With Database"})
   }
   if (data) {
+  
     let {error} = await context.var.database.from("Users").update({points: data.points+body.points}).eq("id", body.id)
     if (error) {
       return context.json({error: error.message})
