@@ -28,13 +28,6 @@ app.use(async (context, next) => {
     context.status(401)
     return context.json({error: "Missing Authorization"})
   }
-  try {const decodedToken = await verify(context.req.header("authorization"), context.env.jwt_secret) 
-  
-  context.set("user", decodedToken) } 
-  catch(e) {
-    context.status(401)
-    return context.json({error: e})
-  }
 }
 let supabase = await createClient(context.env.db_url, context.env.db_secret);
 context.set("database",supabase) 
