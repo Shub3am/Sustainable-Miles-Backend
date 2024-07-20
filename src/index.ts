@@ -41,6 +41,36 @@ context.set("database",supabase)
   await next()
 })
 
+
+
+/* 
+POINTS
+
+*/
+
+app.post("/points", async (context)=> {
+  const body: {points: number, id: number} = await context.req.json()
+  if (!body && body.points && body.id) {
+    return context.json({error: "Details Not Present"})
+  }
+  let { data, error } = await context.var.database
+  .from('Users')
+  .select().eq("id", body.id).maybeSingle()
+  if (error) {
+    return context.json({error: "Error With Database"})
+  }
+  if (data) {
+    let {error} = await context.var.database.from("Users").update({points: data.points+body.points}).eq("id", body.id)
+    if (error) {
+      return context.json({error: error.message})
+    } else {
+      return context.json({success: "Incremented Points"})
+    }
+  }
+})
+
+//POINTs
+
 /* AUTHORIZATION */
 
 
