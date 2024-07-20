@@ -1,0 +1,10 @@
+name = "sustainable-miles-backend"
+compatibility_date = "2024-07-20"
+
+[vars]
+db_url= "https://ngeuehnauxafoyytaquq.supabase.co"
+db_secret = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZXVlaG5hdXhhZm95eXRhcXVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE0NTY3NzMsImV4cCI6MjAzNzAzMjc3M30.OnhcyNoYw-SfPKkP8F1Qa-emhMopaxHclU2O1Z1R6IY"
+jwt_secret = "6708dc9a8629979d3ed0de2ecaaa7cc998a7511a80039a05a0e40681c782fedf"
+
+
+node_compat = true
