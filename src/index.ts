@@ -1,4 +1,4 @@
-import { Hono } from 'hono'
+import { Context, Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import bcrypt from "bcryptjs";
@@ -47,6 +47,16 @@ context.set("database",supabase)
 POINTS
 
 */
+
+app.get("/leaderboard", async (context)=> {
+  let {data,error} = await context.var.database.from("Users").select("*").order('points', 
+    { ascending: false }
+  )
+  if (error) {
+    return context.json({error: "Error With Database"})
+  }
+  return context.json({data})
+})
 
 app.post("/points", async (context)=> {
   const body: {points: number, id: number} = await context.req.json()
