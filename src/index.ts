@@ -58,10 +58,7 @@ app.post("auth", async (context)=> {
     let checkPassword = await bcrypt.compare(body.password, data.password)
     if (checkPassword) {
       delete data['password']
-      let issuedTime = new Date().getTime()/1000
-  let expiredTime = Math.floor(new Date((new Date).getTime() + 7000*60000)/1000)
-      let JWT = await sign({...data, iat: issuedTime, exp: expiredTime}, context.env.jwt_secret)
-      return context.json({data , token: JWT})
+      return context.json({data})
     }
     else {
       context.status(401)
@@ -83,15 +80,11 @@ app.post("/auth/register", async (context)=> {
     return context.json({error: "Data Missing", data: body})
   }
   let hashedPassword = await bcrypt.hash(body.password, 10)
-  let {data,error} = await context.var.database.from("Users").insert({...body, password: hashedPassword}).maybeSingle()
+  let {data,error} = await context.var.database.from("Users").insert({...body, password: hashedPassword}).select()
   if (error) {
     return context.json({error: `There's a error in the database: ${error.message} with error code: ${error.code}`})
   }
-  let issuedTime = new Date().getTime()/1000
-  let expiredTime = Math.floor(new Date((new Date).getTime() + 7000*60000)/1000)
-  let JWT = await sign({...data, iat: issuedTime, exp: expiredTime}, context.env.jwt_secret)
-  console.log(data)
-  return context.json({data , token: JWT})
+  return context.json({data})
 })
 /* 
  id       Int    @id @default(autoincrement())
